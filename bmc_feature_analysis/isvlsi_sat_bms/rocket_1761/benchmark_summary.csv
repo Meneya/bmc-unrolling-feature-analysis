@@ -1,0 +1,2 @@
+benchmark,num_frames,mean_similarity,min_similarity,max_similarity,std_similarity,mean_drift,max_drift
+isvlsi_sat_bms/rocket_1761,33,0.6453730500895376,-0.19749987441555417,0.9996497869966292,0.38029906996259855,12.484835212615305,69.34846645509496

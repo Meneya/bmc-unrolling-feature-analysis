@@ -1,0 +1,2 @@
+benchmark,num_frames,mean_similarity,min_similarity,max_similarity,std_similarity,mean_drift,max_drift
+isvlsi_undet_bms/simple_vardep_1,50,0.927671411755858,-0.4415564763702874,0.9996587810806492,0.26632726402140716,3.816861720280245,115.50528992930533

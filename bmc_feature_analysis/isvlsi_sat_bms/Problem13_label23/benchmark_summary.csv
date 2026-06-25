@@ -1,0 +1,2 @@
+benchmark,num_frames,mean_similarity,min_similarity,max_similarity,std_similarity,mean_drift,max_drift
+isvlsi_sat_bms/Problem13_label23,6,0.02717528240384872,-0.6426918101464042,0.754883645648831,0.5907940157092965,18.844546430804243,35.78572954918115

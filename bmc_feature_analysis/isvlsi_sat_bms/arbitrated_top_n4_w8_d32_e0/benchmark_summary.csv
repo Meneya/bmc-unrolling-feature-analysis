@@ -1,0 +1,2 @@
+benchmark,num_frames,mean_similarity,min_similarity,max_similarity,std_similarity,mean_drift,max_drift
+isvlsi_sat_bms/arbitrated_top_n4_w8_d32_e0,50,0.8988107113339189,0.24762673414425912,0.9990873616734179,0.17416454185806385,4.783705218275017,55.234971859805064

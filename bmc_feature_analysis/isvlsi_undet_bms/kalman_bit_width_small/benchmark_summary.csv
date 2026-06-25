@@ -1,0 +1,2 @@
+benchmark,num_frames,mean_similarity,min_similarity,max_similarity,std_similarity,mean_drift,max_drift
+isvlsi_undet_bms/kalman_bit_width_small,50,0.9166658798661671,-0.489163876280232,0.9994061951069776,0.25476164748178304,4.2869221211658415,84.05563212484886

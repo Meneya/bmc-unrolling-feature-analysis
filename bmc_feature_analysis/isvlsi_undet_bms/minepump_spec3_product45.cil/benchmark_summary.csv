@@ -1,0 +1,2 @@
+benchmark,num_frames,mean_similarity,min_similarity,max_similarity,std_similarity,mean_drift,max_drift
+isvlsi_undet_bms/minepump_spec3_product45.cil,50,0.8500926636447996,0.29365698183586886,0.9991933161898665,0.17903009432020675,5.556334480210588,82.78362935998666

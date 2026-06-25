@@ -1,0 +1,59 @@
+# Python
+
+**pycache**/
+*.pyc
+*.pyo
+*.pyd
+
+# Virtual environments
+
+venv/
+.venv/
+env/
+
+# IDE
+
+.vscode/
+.idea/
+
+# OS files
+
+.DS_Store
+Thumbs.db
+
+# Intermediate BMC artifacts
+
+**/cnfs/
+**/satzilla/
+
+# Large generated data
+
+*.npy
+
+# Raw SATzilla feature dumps
+
+**/all_features.csv
+
+# Logs
+
+*.log
+
+# Temporary files
+
+tmp/
+temp/
+*.tmp
+
+# Keep analysis outputs
+
+# (do NOT ignore)
+
+# abc_stats.csv
+
+# benchmark_summary.csv
+
+# incremental_drift.csv
+
+# global_summary.csv
+
+# *.png
