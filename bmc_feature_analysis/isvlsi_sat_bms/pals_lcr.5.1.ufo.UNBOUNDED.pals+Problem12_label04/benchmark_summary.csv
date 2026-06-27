@@ -1,2 +1,2 @@
-benchmark,num_frames,mean_similarity,min_similarity,max_similarity,std_similarity,mean_drift,max_drift
-isvlsi_sat_bms/pals_lcr.5.1.ufo.UNBOUNDED.pals+Problem12_label04,9,0.12907849319493306,-0.3182300811113228,0.49190042247185833,0.3487633798179347,20.603433844771597,37.114712724096734
+benchmark,num_frames,num_topological_features,mean_similarity,min_similarity,max_similarity,std_similarity,mean_drift,max_drift
+isvlsi_sat_bms/pals_lcr.5.1.ufo.UNBOUNDED.pals+Problem12_label04,9,326,0.09071175968592984,-0.3853185395262526,0.5334830307708718,0.37096409376190775,20.10170968201995,37.10663620492568

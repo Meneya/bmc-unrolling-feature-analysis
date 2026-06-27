@@ -12,6 +12,141 @@ from sklearn.decomposition import PCA
 import matplotlib.pyplot as plt
 
 ##############################################################################
+# FEATURE TAXONOMY — Rigorous topological filtering
+##############################################################################
+#
+# To isolate *purely structural* (topological) drift from confounding
+# non-structural signals, we exclude three categories of SATzilla features
+# before computing cosine similarity, L2 drift, and PCA trajectories:
+#
+#   1. TEMPORAL — Wall-clock time spent by each feature-extraction phase.
+#      These measure computational cost, not formula topology.
+#
+#   2. PROBLEM-SIZE — Raw counts of variables, clauses, and reduction
+#      statistics.  In BMC these grow *monotonically* with unrolling depth;
+#      leaving them in would make drift a trivial artifact of size growth
+#      rather than a genuine topological change.
+#
+#   3. SOLVER-PERFORMANCE — Outcomes from LP relaxation, local-search
+#      probes (SAPS / GSAT), and the binary `solved` flag.  These
+#      capture solver behavior on the instance, not the instance structure.
+#      (Normalized probe statistics — coefficient-of-variation and ratio
+#       features — are retained because they are size-independent.)
+#
+# All remaining features (~347) encode structural properties of the
+# clause-variable graph, its degree distributions, clustering, modularity,
+# algebraic connectivity, diameter, clause-length distribution, etc.
+##############################################################################
+
+# --- Category 1: TEMPORAL (suffix-based detection) ---
+# Every SATzilla timing column ends with the suffix "time" (case-insensitive),
+# e.g. "Pre-featuretime", "lpTIME", "CG-featuretime".  No non-temporal
+# column has this suffix, so a simple endswith() check is both sufficient
+# and future-proof against new SATzilla feature phases.
+TEMPORAL_SUFFIX = "time"
+
+# --- Category 2: PROBLEM-SIZE (raw counts, monotonic in BMC depth) ---
+PROBLEM_SIZE_EXACT = [
+    "nvarsOrig",
+    "nclausesOrig",
+    "nvars",
+    "nclauses",
+    "reducedVars",
+    "reducedClauses",
+    "UNARY",
+    "BINARY+",
+    "TRINARY+",
+]
+
+# --- Category 3: SOLVER-PERFORMANCE ---
+LP_EXACT = [
+    "LP_OBJ",
+    "LPSLack-mean", "LPSLack-coeff-variation",
+    "LPSLack-min", "LPSLack-max",
+    "lpIntRatio",
+    "solved",
+]
+
+# SAPS / GSAT raw (size-dependent) probe metrics
+LS_RAW_EXACT = [
+    # SAPS
+    "saps_BestSolution_Mean",
+    "saps_BestSolution_CoeffVariance",
+    "saps_FirstLocalMinStep_Mean",
+    "saps_FirstLocalMinStep_CoeffVariance",
+    "saps_FirstLocalMinStep_Median",
+    "saps_FirstLocalMinStep_Q.10",
+    "saps_FirstLocalMinStep_Q.90",
+    "saps_BestAvgImprovement_Mean",
+    # GSAT
+    "gsat_BestSolution_Mean",
+    "gsat_BestSolution_CoeffVariance",
+    "gsat_FirstLocalMinStep_Mean",
+    "gsat_FirstLocalMinStep_CoeffVariance",
+    "gsat_FirstLocalMinStep_Median",
+    "gsat_FirstLocalMinStep_Q.10",
+    "gsat_FirstLocalMinStep_Q.90",
+    "gsat_BestAvgImprovement_Mean",
+]
+
+# Variable-reduction counts (size-dependent)
+VAR_REDUCTION_PATTERNS = ["vars-reduced-depth"]
+
+
+def select_topological_features(df):
+    """
+    Given a raw SATzilla feature DataFrame (one row per frame),
+    return a new DataFrame containing *only* topological / structural
+    features, with temporal, problem-size, and solver-performance
+    columns explicitly excluded.
+
+    Prints a diagnostic summary of what was kept vs. dropped.
+    """
+    cols = df.columns.tolist()
+
+    # --- Build the drop set ---
+    drop = set()
+
+    # 1. Temporal: suffix-based — any column whose name ends with "time"
+    temporal_dropped = [c for c in cols if c.lower().endswith(TEMPORAL_SUFFIX)]
+    drop.update(temporal_dropped)
+
+    # 2. Problem-size exact matches
+    drop.update(PROBLEM_SIZE_EXACT)
+
+    # 3. LP / solver-performance exact matches
+    drop.update(LP_EXACT)
+    drop.update(LS_RAW_EXACT)
+
+    # 4. Variable-reduction pattern matches
+    for c in cols:
+        if any(pat in c for pat in VAR_REDUCTION_PATTERNS):
+            drop.add(c)
+
+    # Only drop columns that actually exist
+    drop = {c for c in drop if c in cols}
+
+    keep = [c for c in cols if c not in drop]
+
+    print(f"  Feature filtering: {len(cols)} total -> {len(keep)} topological retained, "
+          f"{len(drop)} dropped")
+    if len(drop) > 0:
+        print(f"  Dropped columns ({len(drop)}):")
+        # Group by category for readability
+        temporal_dropped = sorted(temporal_dropped)
+        size_dropped = [c for c in drop if c in PROBLEM_SIZE_EXACT or any(p in c for p in VAR_REDUCTION_PATTERNS)]
+        solver_dropped = [c for c in drop if c not in temporal_dropped and c not in size_dropped]
+        if temporal_dropped:
+            print(f"    Temporal ({len(temporal_dropped)}): {', '.join(sorted(temporal_dropped))}")
+        if size_dropped:
+            print(f"    Problem-size ({len(size_dropped)}): {', '.join(sorted(size_dropped))}")
+        if solver_dropped:
+            print(f"    Solver-perf ({len(solver_dropped)}): {', '.join(sorted(solver_dropped))}")
+
+    return df[keep].copy()
+
+
+##############################################################################
 # CONFIGURATION
 ##############################################################################
 
@@ -313,13 +448,15 @@ def process_benchmark(aig_file, args):
     X = X.fillna(X.mean())
     raw_features = X.copy()
 
-    # Drop timing columns
-    drop_cols = [c for c in X.columns if "time" in c.lower()]
-    X = X.drop(columns=drop_cols, errors="ignore")
-    
+    # ------------------------------------------------------------------
+    # TOPOLOGICAL FEATURE SELECTION
+    # Replace the old loose "time" filter with rigorous 3-category filter
+    # ------------------------------------------------------------------
+    X_topo = select_topological_features(X)
+
     # Standardize features (StandardScaler safely turns constant columns into 0.0)
     scaler = StandardScaler()
-    X_scaled = scaler.fit_transform(X)
+    X_scaled = scaler.fit_transform(X_topo)
 
     # Core Similarity Computations
     S = cosine_similarity(X_scaled)
@@ -338,6 +475,11 @@ def process_benchmark(aig_file, args):
     np.save(bench_dir / "satzilla_embeddings.npy", X_scaled)
     np.save(bench_dir / "similarity_matrix.npy", S)
 
+    # Also save the list of retained topological feature names for reproducibility
+    pd.Series(X_topo.columns.tolist()).to_csv(
+        bench_dir / "topological_features.csv", index=False, header=["feature_name"]
+    )
+
     pd.DataFrame({
         "frame": valid_frames[:-1],
         "similarity_next": consecutive,
@@ -355,6 +497,7 @@ def process_benchmark(aig_file, args):
     summary = {
         "benchmark": benchmark_id,
         "num_frames": len(valid_frames),
+        "num_topological_features": X_topo.shape[1],
         "mean_similarity": float(np.mean(consecutive)),
         "min_similarity": float(np.min(consecutive)),
         "max_similarity": float(np.max(consecutive)),

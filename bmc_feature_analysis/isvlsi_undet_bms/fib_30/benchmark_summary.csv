@@ -1,2 +1,2 @@
-benchmark,num_frames,mean_similarity,min_similarity,max_similarity,std_similarity,mean_drift,max_drift
-isvlsi_undet_bms/fib_30,50,0.9085300660930942,0.1855738476017929,0.999041610567164,0.15505822589296664,4.625561735355004,84.68912805915103
+benchmark,num_frames,num_topological_features,mean_similarity,min_similarity,max_similarity,std_similarity,mean_drift,max_drift
+isvlsi_undet_bms/fib_30,50,203,0.9492662888264284,0.2940131283340898,0.9989872207841896,0.11467100321017208,3.611406709347531,76.0915215615248

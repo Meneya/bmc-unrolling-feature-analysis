@@ -9,6 +9,22 @@ from pathlib import Path
 import scipy.stats as stats
 
 ##############################################################################
+# NOTE — Feature Filtering Context
+##############################################################################
+#
+# This script consumes pre-computed embeddings (satzilla_embeddings.npy)
+# and per-frame drift (incremental_drift.csv) that were produced by
+# analyze_bmc_features.py.  Since v1.1, that pipeline applies a rigorous
+# three-category feature filter (Temporal / Problem-Size / Solver-Performance)
+# before standardization and embedding, so the inputs to THIS script are
+# already purely topological.  See analyze_bmc_features.py for the full
+# exclusion taxonomy and retained feature list.
+#
+# A topological_features.csv is saved alongside each benchmark's embeddings
+# for full reproducibility.
+##############################################################################
+
+##############################################################################
 # PLOTTING AESTHETICS (IEEE Style)
 ##############################################################################
 
@@ -47,7 +63,7 @@ def load_and_process_data(input_dir, stable_threshold_pct=0.05, consecutive_fram
     """
     input_path = Path(input_dir)
     if not input_path.exists():
-        raise FileNotFoundError(f"Directory {input_dir} not found.")
+        raise FileNotFoundError(f"Directory {input_path} not found.")
 
     all_frame_data = []
     summary_data = []
@@ -76,7 +92,20 @@ def load_and_process_data(input_dir, stable_threshold_pct=0.05, consecutive_fram
         
         if df.empty or len(embeddings) < 2:
             continue
-            
+
+        # Sanity-check: optionally verify the embedding dimension matches
+        # a known topological feature count (from topological_features.csv if present)
+        topo_feat_file = bench_dir / "topological_features.csv"
+        if topo_feat_file.exists():
+            topo_feats = pd.read_csv(topo_feat_file)
+            expected_dim = len(topo_feats)
+            actual_dim = embeddings.shape[1]
+            if expected_dim != actual_dim:
+                print(f"  [WARN] {benchmark_id}: embedding dim ({actual_dim}) != "
+                      f"topological_features.csv count ({expected_dim}). "
+                      f"Skipping stale embeddings.")
+                continue
+
         # 1. Robust Drift Normalization (Using 95th Percentile)
         p95_drift = np.percentile(df['incremental_drift'], 95)
         if p95_drift > 0:

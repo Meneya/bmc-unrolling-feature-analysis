@@ -1,2 +1,2 @@
-benchmark,num_frames,mean_similarity,min_similarity,max_similarity,std_similarity,mean_drift,max_drift
-isvlsi_undet_bms/counter_bit_width_large,50,0.8993645586721798,-0.3906339215907572,0.9994284801490438,0.23184093781919574,5.139087841956334,53.62865360939666
+benchmark,num_frames,num_topological_features,mean_similarity,min_similarity,max_similarity,std_similarity,mean_drift,max_drift
+isvlsi_undet_bms/counter_bit_width_large,50,221,0.9117104256063808,-0.45390389477705473,0.9994601927215496,0.23055976024349445,4.34049199806764,50.696290225946804

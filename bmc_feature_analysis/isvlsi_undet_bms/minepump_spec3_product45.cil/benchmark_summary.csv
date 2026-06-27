@@ -1,2 +1,2 @@
-benchmark,num_frames,mean_similarity,min_similarity,max_similarity,std_similarity,mean_drift,max_drift
-isvlsi_undet_bms/minepump_spec3_product45.cil,50,0.8500926636447996,0.29365698183586886,0.9991933161898665,0.17903009432020675,5.556334480210588,82.78362935998666
+benchmark,num_frames,num_topological_features,mean_similarity,min_similarity,max_similarity,std_similarity,mean_drift,max_drift
+isvlsi_undet_bms/minepump_spec3_product45.cil,50,236,0.9120930691473259,0.3075837197710672,0.9992216793423857,0.1732447472536139,4.1623499069061305,78.84583900191129

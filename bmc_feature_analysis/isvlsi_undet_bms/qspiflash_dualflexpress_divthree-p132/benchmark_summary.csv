@@ -1,2 +1,2 @@
-benchmark,num_frames,mean_similarity,min_similarity,max_similarity,std_similarity,mean_drift,max_drift
-isvlsi_undet_bms/qspiflash_dualflexpress_divthree-p132,50,0.9209876416354063,-0.29022857927231605,0.9990692935302579,0.19447072915876937,4.376129462786989,50.263895801988795
+benchmark,num_frames,num_topological_features,mean_similarity,min_similarity,max_similarity,std_similarity,mean_drift,max_drift
+isvlsi_undet_bms/qspiflash_dualflexpress_divthree-p132,50,214,0.9249116782505947,-0.3408232254234561,0.9991312530900605,0.19977713617186327,3.9398254131218735,45.99345862727457

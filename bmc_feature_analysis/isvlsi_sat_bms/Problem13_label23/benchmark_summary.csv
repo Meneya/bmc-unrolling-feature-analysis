@@ -1,2 +1,2 @@
-benchmark,num_frames,mean_similarity,min_similarity,max_similarity,std_similarity,mean_drift,max_drift
-isvlsi_sat_bms/Problem13_label23,6,0.02717528240384872,-0.6426918101464042,0.754883645648831,0.5907940157092965,18.844546430804243,35.78572954918115
+benchmark,num_frames,num_topological_features,mean_similarity,min_similarity,max_similarity,std_similarity,mean_drift,max_drift
+isvlsi_sat_bms/Problem13_label23,6,229,0.020200253316636753,-0.7241703047841754,0.8432653706689466,0.6508035241288682,18.073562291615275,34.74556062231409

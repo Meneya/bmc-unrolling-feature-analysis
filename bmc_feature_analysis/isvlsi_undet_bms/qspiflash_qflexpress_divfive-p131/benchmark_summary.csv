@@ -1,2 +1,2 @@
-benchmark,num_frames,mean_similarity,min_similarity,max_similarity,std_similarity,mean_drift,max_drift
-isvlsi_undet_bms/qspiflash_qflexpress_divfive-p131,50,0.9265608165861989,0.29590810057949535,0.9995035253614626,0.15090487013900974,4.326957731062628,54.90507219082268
+benchmark,num_frames,num_topological_features,mean_similarity,min_similarity,max_similarity,std_similarity,mean_drift,max_drift
+isvlsi_undet_bms/qspiflash_qflexpress_divfive-p131,50,214,0.9365007724420021,0.25323428148112503,0.9995569830165728,0.1446525288113658,3.649769488593451,45.256948618985696

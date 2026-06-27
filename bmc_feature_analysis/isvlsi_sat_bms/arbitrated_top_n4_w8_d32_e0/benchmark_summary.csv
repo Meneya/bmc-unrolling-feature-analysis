@@ -1,2 +1,2 @@
-benchmark,num_frames,mean_similarity,min_similarity,max_similarity,std_similarity,mean_drift,max_drift
-isvlsi_sat_bms/arbitrated_top_n4_w8_d32_e0,50,0.8988107113339189,0.24762673414425912,0.9990873616734179,0.17416454185806385,4.783705218275017,55.234971859805064
+benchmark,num_frames,num_topological_features,mean_similarity,min_similarity,max_similarity,std_similarity,mean_drift,max_drift
+isvlsi_sat_bms/arbitrated_top_n4_w8_d32_e0,50,225,0.9090281075930694,0.2054649073173175,0.9992606617207448,0.16493230790499402,4.263242724178226,51.00809265239693

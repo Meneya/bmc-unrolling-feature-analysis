@@ -1,2 +1,2 @@
-benchmark,num_frames,mean_similarity,min_similarity,max_similarity,std_similarity,mean_drift,max_drift
-isvlsi_sat_bms/yosyshq_appnote_123_veer_axi-p62,50,0.6947736661980755,-0.23056486391581252,0.9999570194308213,0.34667150361372706,8.685662726797021,47.49819428890607
+benchmark,num_frames,num_topological_features,mean_similarity,min_similarity,max_similarity,std_similarity,mean_drift,max_drift
+isvlsi_sat_bms/yosyshq_appnote_123_veer_axi-p62,50,288,0.695351187018757,-0.29468345347248626,0.999968600998959,0.36087701952450196,8.11482115027868,44.110129728102876

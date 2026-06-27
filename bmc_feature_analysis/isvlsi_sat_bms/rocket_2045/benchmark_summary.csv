@@ -1,2 +1,2 @@
-benchmark,num_frames,mean_similarity,min_similarity,max_similarity,std_similarity,mean_drift,max_drift
-isvlsi_sat_bms/rocket_2045,32,0.6585505904497411,-0.0967906147663796,0.999950531463287,0.3914887761242372,11.17369881804617,80.05237126226682
+benchmark,num_frames,num_topological_features,mean_similarity,min_similarity,max_similarity,std_similarity,mean_drift,max_drift
+isvlsi_sat_bms/rocket_2045,32,340,0.6563375601277993,-0.0902773788238834,0.9999854604361049,0.40095436220264835,10.583451720803717,76.62895148859923

@@ -1,2 +1,2 @@
-benchmark,num_frames,mean_similarity,min_similarity,max_similarity,std_similarity,mean_drift,max_drift
-isvlsi_undet_bms/bin-suffix-5,50,0.8015424685974969,-0.12205179037556502,0.9991712734213365,0.18780021277896583,5.603946081131112,130.46338361986727
+benchmark,num_frames,num_topological_features,mean_similarity,min_similarity,max_similarity,std_similarity,mean_drift,max_drift
+isvlsi_undet_bms/bin-suffix-5,50,327,0.9557127870586102,-0.09453413617188969,0.9989848653814426,0.158517057671783,3.600249585140471,125.08412285091684
