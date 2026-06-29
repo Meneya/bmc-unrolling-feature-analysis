@@ -14,14 +14,8 @@ import scipy.stats as stats
 #
 # This script consumes pre-computed embeddings (satzilla_embeddings.npy)
 # and per-frame drift (incremental_drift.csv) that were produced by
-# analyze_bmc_features.py.  Since v1.1, that pipeline applies a rigorous
-# three-category feature filter (Temporal / Problem-Size / Solver-Performance)
-# before standardization and embedding, so the inputs to THIS script are
-# already purely topological.  See analyze_bmc_features.py for the full
+# analyze_bmc_features.py. See analyze_bmc_features.py for the full
 # exclusion taxonomy and retained feature list.
-#
-# A topological_features.csv is saved alongside each benchmark's embeddings
-# for full reproducibility.
 ##############################################################################
 
 ##############################################################################

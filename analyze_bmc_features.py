@@ -450,7 +450,6 @@ def process_benchmark(aig_file, args):
 
     # ------------------------------------------------------------------
     # TOPOLOGICAL FEATURE SELECTION
-    # Replace the old loose "time" filter with rigorous 3-category filter
     # ------------------------------------------------------------------
     X_topo = select_topological_features(X)
 
